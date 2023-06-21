@@ -5,6 +5,10 @@ import morgan from "morgan";
 
 const app = express();
 
+// for serving static files:
+// static folder gula always root server ei use korte hoy tai url(/) diyechi:
+app.use("/", express.static("./public"));
+
 app.use(morgan("dev"));
 
 // using the router middleware:
@@ -19,7 +23,7 @@ app.use((req, res, next) => {
 
 app.use(async (error, req, res, next) => {
   if (error.status) {
-    const ERROR_PATH = new URL("./src/User/pages/error.html", import.meta.url);
+    const ERROR_PATH = new URL("./src/pages/error.html", import.meta.url);
     const Error = await fs.readFile(ERROR_PATH, "utf-8");
     return res.status(error.status).send(Error);
   }
